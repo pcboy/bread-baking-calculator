@@ -28,12 +28,22 @@ class CalculatorStore {
     return Math.round(this.totalWeight * (this.starterPerc / 100.0));
   }
 
+  @action recomputeFlours() {
+    const total = this.flours.map((x) => x[1]).reduce((x, y) => x + y, 0);
+    if (total > 100) {
+      this.flours[0][1] -= total - 100;
+    } else if (total < 100) {
+      this.flours[0][1] += 100 - total;
+    }
+  }
   @action addFlour() {
-    this.flours = [...this.flours, ["Whole Wheat Flour", 50]];
+    this.flours = [...this.flours, ["Whole Wheat Flour", 0]];
+    this.recomputeFlours();
   }
 
   @action removeFlour(index) {
     this.flours = this.flours.filter((value, i) => i != index);
+    this.recomputeFlours();
   }
 
   @action addIngredient() {

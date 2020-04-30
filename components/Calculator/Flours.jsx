@@ -63,6 +63,7 @@ export class Flours extends Component {
                 onChange={(e) => {
                   const num = sanitizedNumber(e);
                   calculatorStore.flours[index] = [ingredient[0], num];
+                  calculatorStore.recomputeFlours();
                 }}
                 label="Percentage"
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
