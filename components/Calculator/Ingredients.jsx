@@ -1,29 +1,21 @@
 import React, { Component } from "react";
-import { InputAdornment, Input, IconButton, Select } from "@material-ui/core";
-
+import { InputAdornment, Input, IconButton } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-
 import { observer } from "mobx-react";
 import ContentEditable from "react-contenteditable";
-import { calculatorStore } from "./stores/CalculatorStore";
-import { sanitizedValue, AddButton } from "./Utils";
+
+import { calculatorStore } from "../../stores/CalculatorStore";
+
+import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 @observer
-export class Flours extends Component {
-  flourWeight = (flourIndex, flourPerc) =>
-    Math.round(
-      calculatorStore.computeWeight(flourPerc) -
-        (flourIndex == calculatorStore.starterFlourIndex
-          ? calculatorStore.starterWeight / 2
-          : 0)
-    );
-
+export class Ingredients extends Component {
   render() {
     return (
       <div className="columns is-multiline is-mobile">
-        {calculatorStore.flours.map((ingredient, index) => (
-          <React.Fragment key={`flour_${index}`}>
+        {calculatorStore.ingredients.map((ingredient, index) => (
+          <React.Fragment key={`ingredient_${index}`}>
             <div className="column is-half" style={{ position: "relative" }}>
               {index != 0 && (
                 <IconButton
@@ -34,7 +26,7 @@ export class Flours extends Component {
                     left: "-2rem",
                     marginTop: "0.4rem",
                   }}
-                  onClick={() => calculatorStore.removeFlour(index)}
+                  onClick={() => calculatorStore.removeIngredient(index)}
                 >
                   <RemoveCircleIcon fontSize="inherit" />
                 </IconButton>
@@ -44,8 +36,8 @@ export class Flours extends Component {
                 className="editable"
                 disabled={false}
                 onChange={(e) => {
-                  const ingr = sanitizedValue(e);
-                  calculatorStore.flours[index] = [ingr, ingredient[1]];
+                  const ingr = sanitizedString(e);
+                  calculatorStore.ingredients[index] = [ingr, ingredient[1]];
                 }}
               />
             </div>
@@ -53,29 +45,25 @@ export class Flours extends Component {
               <Input
                 type="number"
                 max="100"
-                style={{ width: "100%" }}
                 value={ingredient[1]}
+                style={{ width: "100%" }}
                 onChange={(e) => {
-                  const num = sanitizedValue(e);
-                  calculatorStore.flours[index] = [
-                    ingredient[0],
-                    parseInt(num),
-                  ];
+                  const weight = sanitizedNumber(e);
+                  calculatorStore.ingredients[index] = [ingredient[0], weight];
                 }}
                 label="Percentage"
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
-
               <div className="weight">
-                {this.flourWeight(index, ingredient[1])} grams
+                {calculatorStore.computeWeight(ingredient[1])} grams
               </div>
             </div>
           </React.Fragment>
         ))}
         <div className="column is-12 has-text-centered">
-          <AddButton onClick={() => calculatorStore.addFlour()}>
+          <AddButton onClick={() => calculatorStore.addIngredient()}>
             <AddCircleIcon style={{ marginRight: ".5rem" }} />
-            Add Another Flour
+            Add Other Ingredients
           </AddButton>
         </div>
       </div>
