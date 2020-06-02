@@ -1,5 +1,8 @@
 name: Build and Deploy
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -9,10 +12,15 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install and Build
-        run: |
-          yarn install
-          yarn build
+      - name: Install
+        uses: borales/actions-yarn@57dd002262b59c78db069fabc6ea50fcf469f073
+        with:
+          cmd: install
+
+      - name: Build
+        uses: borales/actions-yarn@57dd002262b59c78db069fabc6ea50fcf469f073
+        with:
+          cmd: build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@f8bad71bf44bc9e98b4f1a7cc52ff005129068f6
