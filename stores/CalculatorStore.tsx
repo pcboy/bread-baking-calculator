@@ -2,15 +2,15 @@ import { observable, onBecomeObserved } from "mobx";
 import { action, computed, runInAction } from "mobx";
 
 class CalculatorStore {
-  @observable flours = [["Bread Flour", 100]];
-  @observable ingredients = [["Salt", 3]];
+  @observable flours: [string, number][] = [["Bread Flour", 100]];
+  @observable ingredients: [string, number][] = [["Salt", 3]];
 
-  @observable waterPerc = 85;
-  @observable totalWeight = 800;
-  @observable starterPerc = 10;
-  @observable starterFlourIndex = 0;
+  @observable waterPerc: number = 85;
+  @observable totalWeight: number = 800;
+  @observable starterPerc: number = 10;
+  @observable starterFlourIndex: number = 0;
 
-  computeWeight = (ingredientPerc) => {
+  computeWeight = (ingredientPerc: number) => {
     return Math.round(
       ingredientPerc *
         (this.totalWeight /
@@ -41,7 +41,7 @@ class CalculatorStore {
     this.recomputeFlours();
   }
 
-  @action removeFlour(index) {
+  @action removeFlour(index: number) {
     this.flours = this.flours.filter((value, i) => i != index);
     this.recomputeFlours();
   }
@@ -53,7 +53,7 @@ class CalculatorStore {
     ];
   }
 
-  @action removeIngredient(index) {
+  @action removeIngredient(index: number) {
     this.ingredients = this.ingredients.filter((value, i) => i != index);
   }
 }

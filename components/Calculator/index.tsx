@@ -90,14 +90,18 @@ class Calculator extends Component {
                   native
                   value={calculatorStore.starterFlourIndex}
                   onChange={(e) =>
-                    (calculatorStore.starterFlourIndex = e.target.value)
+                    (calculatorStore.starterFlourIndex = parseInt(
+                      e.target.value
+                    ))
                   }
                 >
-                  {calculatorStore.flours.map((flour, index) => (
-                    <option key={`flour_${index}`} value={index}>
-                      {stripHTML(flour[0])}
-                    </option>
-                  ))}
+                  {calculatorStore.flours.map(
+                    (flour: [string, number], index: number) => (
+                      <option key={`flour_${index}`} value={index}>
+                        {stripHTML(flour[0])}
+                      </option>
+                    )
+                  )}
                 </Select>
               </FormControl>
             </div>

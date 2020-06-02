@@ -8,22 +8,23 @@ export const AddButton = ({ onClick, children }) => (
   </Button>
 );
 
-export const sanitizedString = (e) => {
+export const sanitizedString = (e): string => {
   const value = e.target.value != "" ? e.target.value : "";
   return value;
 };
 
-export const sanitizedNumber = (e) => {
+export const sanitizedNumber = (e): number => {
   const value = e.target.value != "" ? parseInt(e.target.value) : 0;
   return value;
 };
 
-export const handleChangeNumber = (e, key) => {
+export const handleChangeNumber = (e, key): number => {
   const value = e.target.value != "" ? parseInt(e.target.value) : 0;
   calculatorStore[key] = value;
+  return value;
 };
 
-export const stripHTML = (htmlString) => {
+export const stripHTML = (htmlString): string => {
   return htmlString
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")

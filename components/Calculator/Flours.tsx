@@ -16,7 +16,7 @@ import {
 
 @observer
 export class Flours extends Component {
-  flourWeight = (flourIndex, flourPerc) =>
+  flourWeight = (flourIndex: number, flourPerc: number) =>
     Math.round(
       calculatorStore.computeWeight(flourPerc) -
         (flourIndex == calculatorStore.starterFlourIndex
