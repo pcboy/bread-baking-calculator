@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { InputAdornment, Input, IconButton } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
@@ -10,7 +10,7 @@ import { calculatorStore } from "../../stores/CalculatorStore";
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 @observer
-export class Ingredients extends Component {
+export class Ingredients extends React.Component {
   render() {
     return (
       <div className="columns is-multiline is-mobile">

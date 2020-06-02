@@ -1,30 +1,42 @@
-import React from "react";
+import * as React from "react";
 import { Button } from "@material-ui/core";
 import { calculatorStore } from "../../stores/CalculatorStore";
 
-export const AddButton = ({ onClick, children }) => (
+export type AddButtonProps = {
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
+export const AddButton = ({ onClick, children }: AddButtonProps) => (
   <Button variant="outlined" color="primary" size="small" onClick={onClick}>
     {children}
   </Button>
 );
 
-export const sanitizedString = (e): string => {
+export const sanitizedString = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+): string => {
   const value = e.target.value != "" ? e.target.value : "";
   return value;
 };
 
-export const sanitizedNumber = (e): number => {
+export const sanitizedNumber = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+): number => {
   const value = e.target.value != "" ? parseInt(e.target.value) : 0;
   return value;
 };
 
-export const handleChangeNumber = (e, key): number => {
+export const handleChangeNumber = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  key: string
+): number => {
   const value = e.target.value != "" ? parseInt(e.target.value) : 0;
   calculatorStore[key] = value;
   return value;
 };
 
-export const stripHTML = (htmlString): string => {
+export const stripHTML = (htmlString: string): string => {
   return htmlString
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")

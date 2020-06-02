@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 
 import {
   InputAdornment,
@@ -17,7 +17,7 @@ import { SCalculator } from "./SCalculator";
 import { handleChangeNumber, stripHTML } from "./Utils";
 
 @observer
-class Calculator extends Component {
+class Calculator extends React.Component {
   componentDidMount() {}
 
   waterWeight = () =>
@@ -89,7 +89,7 @@ class Calculator extends Component {
                 <Select
                   native
                   value={calculatorStore.starterFlourIndex}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<any>) =>
                     (calculatorStore.starterFlourIndex = parseInt(
                       e.target.value
                     ))

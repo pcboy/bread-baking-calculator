@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { InputAdornment, Input, IconButton, Select } from "@material-ui/core";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -15,7 +15,7 @@ import {
 } from "./Utils";
 
 @observer
-export class Flours extends Component {
+export class Flours extends React.Component {
   flourWeight = (flourIndex: number, flourPerc: number) =>
     Math.round(
       calculatorStore.computeWeight(flourPerc) -
