@@ -9,64 +9,61 @@ import { calculatorStore } from "../../stores/CalculatorStore";
 
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
-@observer
-export class Ingredients extends React.Component {
-  render() {
-    return (
-      <div className="columns is-multiline is-mobile">
-        {calculatorStore.ingredients.map((ingredient, index) => (
-          <React.Fragment key={`ingredient_${index}`}>
-            <div className="column is-half" style={{ position: "relative" }}>
-              {index != 0 && (
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  style={{
-                    position: "absolute",
-                    left: "-2rem",
-                    marginTop: "0.4rem",
-                  }}
-                  onClick={() => calculatorStore.removeIngredient(index)}
-                >
-                  <RemoveCircleIcon fontSize="inherit" />
-                </IconButton>
-              )}
-              <ContentEditable
-                html={ingredient[0]}
-                className="editable"
-                disabled={false}
-                onChange={(e) => {
-                  const ingr = sanitizedString(e);
-                  calculatorStore.ingredients[index] = [ingr, ingredient[1]];
+export const Ingredients = observer(() => {
+  return (
+    <div className="columns is-multiline is-mobile">
+      {calculatorStore.ingredients.map((ingredient, index) => (
+        <React.Fragment key={`ingredient_${index}`}>
+          <div className="column is-half" style={{ position: "relative" }}>
+            {index != 0 && (
+              <IconButton
+                aria-label="delete"
+                size="small"
+                style={{
+                  position: "absolute",
+                  left: "-2rem",
+                  marginTop: "0.4rem",
                 }}
-              />
+                onClick={() => calculatorStore.removeIngredient(index)}
+              >
+                <RemoveCircleIcon fontSize="inherit" />
+              </IconButton>
+            )}
+            <ContentEditable
+              html={ingredient[0]}
+              className="editable"
+              disabled={false}
+              onChange={(e) => {
+                const ingr = sanitizedString(e);
+                calculatorStore.ingredients[index] = [ingr, ingredient[1]];
+              }}
+            />
+          </div>
+          <div className="column is-half">
+            <Input
+              type="number"
+              max="100"
+              value={ingredient[1]}
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                const weight = sanitizedNumber(e);
+                calculatorStore.ingredients[index] = [ingredient[0], weight];
+              }}
+              label="Percentage"
+              endAdornment={<InputAdornment position="end">%</InputAdornment>}
+            />
+            <div className="weight">
+              {calculatorStore.computeWeight(ingredient[1])} grams
             </div>
-            <div className="column is-half">
-              <Input
-                type="number"
-                max="100"
-                value={ingredient[1]}
-                style={{ width: "100%" }}
-                onChange={(e) => {
-                  const weight = sanitizedNumber(e);
-                  calculatorStore.ingredients[index] = [ingredient[0], weight];
-                }}
-                label="Percentage"
-                endAdornment={<InputAdornment position="end">%</InputAdornment>}
-              />
-              <div className="weight">
-                {calculatorStore.computeWeight(ingredient[1])} grams
-              </div>
-            </div>
-          </React.Fragment>
-        ))}
-        <div className="column is-12 has-text-centered">
-          <AddButton onClick={() => calculatorStore.addIngredient()}>
-            <AddCircleIcon style={{ marginRight: ".5rem" }} />
-            Add Other Ingredients
-          </AddButton>
-        </div>
+          </div>
+        </React.Fragment>
+      ))}
+      <div className="column is-12 has-text-centered">
+        <AddButton onClick={() => calculatorStore.addIngredient()}>
+          <AddCircleIcon style={{ marginRight: ".5rem" }} />
+          Add Other Ingredients
+        </AddButton>
       </div>
-    );
-  }
-}
+    </div>
+  );
+});

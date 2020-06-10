@@ -14,9 +14,8 @@ import {
   stripHTML,
 } from "./Utils";
 
-@observer
-export class Flours extends React.Component {
-  flourWeight = (flourIndex: number, flourPerc: number) =>
+export const Flours = observer(() => {
+  const flourWeight = (flourIndex: number, flourPerc: number) =>
     Math.round(
       calculatorStore.computeWeight(flourPerc) -
         (flourIndex == calculatorStore.starterFlourIndex
@@ -24,8 +23,7 @@ export class Flours extends React.Component {
           : 0)
     );
 
-  render() {
-    return (
+  return (
       <div className="columns is-multiline is-mobile">
         {calculatorStore.flours.map((ingredient, index) => (
           <React.Fragment key={`flour_${index}`}>
@@ -70,7 +68,7 @@ export class Flours extends React.Component {
               />
 
               <div className="weight">
-                {this.flourWeight(index, ingredient[1])} grams
+                {flourWeight(index, ingredient[1])} grams
               </div>
             </div>
           </React.Fragment>
@@ -82,6 +80,5 @@ export class Flours extends React.Component {
           </AddButton>
         </div>
       </div>
-    );
-  }
-}
+      )
+})
