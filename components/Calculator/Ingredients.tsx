@@ -36,6 +36,7 @@ export const Ingredients = observer(() => {
               onChange={(e) => {
                 const ingr = sanitizedString(e);
                 calculatorStore.ingredients[index] = [ingr, ingredient[1]];
+                calculatorStore.recomputeHash();
               }}
             />
           </div>
@@ -48,6 +49,7 @@ export const Ingredients = observer(() => {
               onChange={(e) => {
                 const weight = sanitizedNumber(e);
                 calculatorStore.ingredients[index] = [ingredient[0], weight];
+                calculatorStore.recomputeHash();
               }}
               label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}

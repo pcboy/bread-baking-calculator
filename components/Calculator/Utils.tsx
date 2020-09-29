@@ -33,6 +33,7 @@ export const handleChangeNumber = (
 ): number => {
   const value = e.target.value != "" ? parseInt(e.target.value) : 0;
   calculatorStore[key] = value;
+  calculatorStore.recomputeHash();
   return value;
 };
 

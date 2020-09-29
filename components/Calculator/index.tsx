@@ -17,6 +17,8 @@ import { SCalculator } from "./SCalculator";
 import { handleChangeNumber, stripHTML } from "./Utils";
 
 const Calculator = observer(() => {
+  React.useEffect(() => calculatorStore.loadHash(), []);
+
   const waterWeight = () =>
     Math.round(
       calculatorStore.computeWeight(calculatorStore.waterPerc) -
@@ -83,9 +85,10 @@ const Calculator = observer(() => {
               <Select
                 native
                 value={calculatorStore.starterFlourIndex}
-                onChange={(e: React.ChangeEvent<any>) =>
-                  (calculatorStore.starterFlourIndex = parseInt(e.target.value))
-                }
+                onChange={(e: React.ChangeEvent<any>) => {
+                  calculatorStore.starterFlourIndex = parseInt(e.target.value);
+                  calculatorStore.recomputeHash();
+                }}
               >
                 {calculatorStore.flours.map(
                   (flour: [string, number], index: number) => (

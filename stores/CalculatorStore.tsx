@@ -1,5 +1,8 @@
 import { observable, onBecomeObserved } from "mobx";
-import { action, computed, runInAction } from "mobx";
+import { action, computed, runInAction, toJS } from "mobx";
+
+import * as msgpack from "msgpack-lite";
+import * as bs58 from "bs58";
 
 class CalculatorStore {
   @observable flours: [string, number][] = [["Bread Flour", 100]];
@@ -35,7 +38,38 @@ class CalculatorStore {
     } else if (total < 100) {
       this.flours[0][1] += 100 - total;
     }
+    this.recomputeHash();
   }
+
+  @action loadHash() {
+    if (window.location.hash.length > 0) {
+      try {
+        const decoded = msgpack.decode(
+          bs58.decode(window.location.hash.substring(1))
+        );
+        decoded.f && (this.flours = decoded.f);
+        decoded.i && (this.ingredients = decoded.i);
+        decoded.w && (this.waterPerc = decoded.w);
+        decoded.tw && (this.totalWeight = decoded.tw);
+        decoded.sp && (this.starterPerc = decoded.sp);
+        decoded.sfi && (this.starterFlourIndex = decoded.sfi);
+      } catch (err) {}
+    }
+  }
+
+  @action recomputeHash() {
+    window.location.hash = bs58.encode(
+      msgpack.encode({
+        f: this.flours,
+        i: this.ingredients,
+        w: this.waterPerc,
+        tw: this.totalWeight,
+        sp: this.starterPerc,
+        sfi: this.starterFlourIndex,
+      })
+    );
+  }
+
   @action addFlour() {
     this.flours = [...this.flours, ["Whole Wheat Flour", 0]];
     this.recomputeFlours();
@@ -51,10 +85,12 @@ class CalculatorStore {
       ...this.ingredients,
       ["Ingredient " + this.ingredients.length, 0],
     ];
+    this.recomputeHash();
   }
 
   @action removeIngredient(index: number) {
     this.ingredients = this.ingredients.filter((value, i) => i != index);
+    this.recomputeHash();
   }
 }
 
