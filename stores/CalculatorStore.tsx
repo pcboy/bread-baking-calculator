@@ -8,7 +8,7 @@ class CalculatorStore {
   @observable flours: [string, number][] = [["Bread Flour", 100]];
   @observable ingredients: [string, number][] = [["Salt", 3]];
 
-  @observable waterPerc: number = 85;
+  @observable waterPerc: number = 75;
   @observable totalWeight: number = 800;
   @observable starterPerc: number = 10;
   @observable starterFlourIndex: number = 0;
