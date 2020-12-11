@@ -46,6 +46,7 @@ export const Ingredients = observer(() => {
               max="100"
               value={ingredient[1]}
               style={{ width: "100%" }}
+              onClick={(e) => e.target.select() }
               onChange={(e) => {
                 const weight = sanitizedNumber(e);
                 calculatorStore.ingredients[index] = [ingredient[0], weight];

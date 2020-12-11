@@ -36,6 +36,7 @@ const Calculator = observer(() => {
               type="number"
               style={{ width: "100%" }}
               value={calculatorStore.totalWeight}
+              onClick={(e) => e.target.select()}
               onChange={(e) => handleChangeNumber(e, "totalWeight")}
               label="Total weight"
               endAdornment={<InputAdornment position="end">g</InputAdornment>}
@@ -52,6 +53,7 @@ const Calculator = observer(() => {
               max="100"
               style={{ width: "100%" }}
               value={calculatorStore.waterPerc}
+              onClick={(e) => e.target.select()}
               onChange={(e) => handleChangeNumber(e, "waterPerc")}
               label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
@@ -73,6 +75,7 @@ const Calculator = observer(() => {
               max="100"
               style={{ width: "100%" }}
               value={calculatorStore.starterPerc}
+              onClick={(e) => e.target.select()}
               onChange={(e) => handleChangeNumber(e, "starterPerc")}
               label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}

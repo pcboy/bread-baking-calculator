@@ -58,6 +58,7 @@ export const Flours = observer(() => {
                 max="100"
                 style={{ width: "100%" }}
                 value={ingredient[1]}
+                onClick={(e) => e.target.select() }
                 onChange={(e) => {
                   const num = sanitizedNumber(e);
                   calculatorStore.flours[index] = [ingredient[0], num];
