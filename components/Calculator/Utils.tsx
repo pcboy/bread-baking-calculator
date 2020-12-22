@@ -23,7 +23,7 @@ export const sanitizedString = (
 export const sanitizedNumber = (
   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 ): number => {
-  const value = e.target.value != "" ? parseInt(e.target.value) : 0;
+  const value = e.target.value != "" ? parseFloat(e.target.value) : 0;
   return value;
 };
 
@@ -31,7 +31,7 @@ export const handleChangeNumber = (
   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   key: string
 ): number => {
-  const value = e.target.value != "" ? parseInt(e.target.value) : 0;
+  const value = e.target.value != "" ? parseFloat(e.target.value) : 0;
   calculatorStore[key] = value;
   calculatorStore.recomputeHash();
   return value;
