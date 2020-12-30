@@ -1,11 +1,5 @@
 {
-  "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react",
-    {
-      "plugins": ["mobx-deep-action"]
-    }
-  ],
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
     "mobx-deep-action",
     "emotion",
@@ -21,12 +15,6 @@
       "@babel/plugin-proposal-decorators",
       {
         "legacy": true
-      }
-    ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": false
       }
     ]
   ]

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button } from "@material-ui/core";
 import { calculatorStore } from "../../stores/CalculatorStore";
+import { ContentEditableEvent } from "react-contenteditable";
 
 export type AddButtonProps = {
   onClick: () => void;
@@ -14,7 +15,7 @@ export const AddButton = ({ onClick, children }: AddButtonProps) => (
 );
 
 export const sanitizedString = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | ContentEditableEvent
 ): string => {
   const value = e.target.value != "" ? e.target.value : "";
   return value;
@@ -32,13 +33,12 @@ export const handleChangeNumber = (
   key: string
 ): number => {
   const value = e.target.value != "" ? parseFloat(e.target.value) : 0;
-  calculatorStore[key] = value;
-  calculatorStore.recomputeHash();
+  calculatorStore.changeAttribute(key,value)
   return value;
 };
 
 export const stripHTML = (htmlString: string): string => {
-  return htmlString
+  return htmlString && htmlString
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
     .replace(/&gt;/g, ">")

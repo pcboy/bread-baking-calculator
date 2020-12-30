@@ -15,6 +15,7 @@ import { Ingredients } from "./Ingredients";
 import { Flours } from "./Flours";
 import { SCalculator } from "./SCalculator";
 import { handleChangeNumber, stripHTML } from "./Utils";
+import ContentEditable from "react-contenteditable";
 
 const Calculator = observer(() => {
   React.useEffect(() => calculatorStore.loadHash(), []);
@@ -28,7 +29,16 @@ const Calculator = observer(() => {
   return (
     <div className="container" style={{ padding: "1rem" }}>
       <SCalculator>
-        <h1>Bread Baking Calculator</h1>
+        <h1>
+          <ContentEditable
+            html={calculatorStore.recipeName}
+            className="editable"
+            disabled={false}
+            onChange={(e) => {
+              calculatorStore.changeAttribute("recipeName", e.target.value);
+            }}
+          />
+        </h1>
         <div className="columns is-multiline is-mobile">
           <div className="column is-half">Final Dough Weight</div>
           <div className="column is-half">
@@ -36,9 +46,8 @@ const Calculator = observer(() => {
               type="number"
               style={{ width: "100%" }}
               value={calculatorStore.totalWeight}
-              onClick={(e) => e.target.select()}
+              onClick={(e) => e.target?.select()}
               onChange={(e) => handleChangeNumber(e, "totalWeight")}
-              label="Total weight"
               endAdornment={<InputAdornment position="end">g</InputAdornment>}
             />
           </div>
@@ -50,12 +59,10 @@ const Calculator = observer(() => {
           <div className="column is-half">
             <Input
               type="number"
-              max="100"
               style={{ width: "100%" }}
               value={calculatorStore.waterPerc}
-              onClick={(e) => e.target.select()}
+              onClick={(e) => e.target?.select()}
               onChange={(e) => handleChangeNumber(e, "waterPerc")}
-              label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
 
@@ -72,12 +79,10 @@ const Calculator = observer(() => {
           <div className="column is-half">
             <Input
               type="number"
-              max="100"
               style={{ width: "100%" }}
               value={calculatorStore.starterPerc}
-              onClick={(e) => e.target.select()}
+              onClick={(e) => e.target?.select()}
               onChange={(e) => handleChangeNumber(e, "starterPerc")}
-              label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="weight">{calculatorStore.starterWeight} grams</div>
@@ -89,17 +94,14 @@ const Calculator = observer(() => {
                 native
                 value={calculatorStore.starterFlourIndex}
                 onChange={(e: React.ChangeEvent<any>) => {
-                  calculatorStore.starterFlourIndex = parseInt(e.target.value);
-                  calculatorStore.recomputeHash();
+                  calculatorStore.starterFlour(parseInt(e.target.value));
                 }}
               >
-                {calculatorStore.flours.map(
-                  (flour: [string, number], index: number) => (
-                    <option key={`flour_${index}`} value={index}>
-                      {stripHTML(flour[0])}
-                    </option>
-                  )
-                )}
+                {calculatorStore.flours.map((flour, index: number) => (
+                  <option key={`flour_${index}`} value={index}>
+                    {stripHTML(flour.name)}
+                  </option>
+                ))}
               </Select>
             </FormControl>
           </div>

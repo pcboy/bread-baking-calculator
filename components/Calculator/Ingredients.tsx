@@ -30,13 +30,15 @@ export const Ingredients = observer(() => {
               </IconButton>
             )}
             <ContentEditable
-              html={ingredient[0]}
+              html={ingredient.name}
               className="editable"
               disabled={false}
               onChange={(e) => {
                 const ingr = sanitizedString(e);
-                calculatorStore.ingredients[index] = [ingr, ingredient[1]];
-                calculatorStore.recomputeHash();
+                calculatorStore.replaceIngredient(index, {
+                  name: ingr,
+                  dosage: ingredient.dosage,
+                });
               }}
             />
           </div>
@@ -44,19 +46,21 @@ export const Ingredients = observer(() => {
             <Input
               type="number"
               max="100"
-              value={ingredient[1]}
+              value={ingredient.dosage}
               style={{ width: "100%" }}
-              onClick={(e) => e.target.select() }
+              onClick={(e) => e.target?.select()}
               onChange={(e) => {
                 const weight = sanitizedNumber(e);
-                calculatorStore.ingredients[index] = [ingredient[0], weight];
-                calculatorStore.recomputeHash();
+                calculatorStore.replaceIngredient(index, {
+                  name: ingredient.name,
+                  dosage: weight,
+                });
               }}
               label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="weight">
-              {calculatorStore.computeWeight(ingredient[1])} grams
+              {calculatorStore.computeWeight(ingredient.dosage)} grams
             </div>
           </div>
         </React.Fragment>
