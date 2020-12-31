@@ -15,7 +15,9 @@ export const AddButton = ({ onClick, children }: AddButtonProps) => (
 );
 
 export const sanitizedString = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | ContentEditableEvent
+  e:
+    | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    | ContentEditableEvent
 ): string => {
   const value = e.target.value != "" ? e.target.value : "";
   return value;
@@ -33,15 +35,18 @@ export const handleChangeNumber = (
   key: string
 ): number => {
   const value = e.target.value != "" ? parseFloat(e.target.value) : 0;
-  calculatorStore.changeAttribute(key,value)
+  calculatorStore.changeAttribute(key, value);
   return value;
 };
 
 export const stripHTML = (htmlString: string): string => {
-  return htmlString && htmlString
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&gt;/g, ">")
-    .replace(/<br>/g, " ")
-    .replace(/&lt;/g, "<");
+  return (
+    htmlString &&
+    htmlString
+      .replace(/&amp;/g, "&")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&gt;/g, ">")
+      .replace(/<br>/g, " ")
+      .replace(/&lt;/g, "<")
+  );
 };
