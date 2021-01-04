@@ -60,7 +60,7 @@ export const Flours = observer(() => {
               max="100"
               style={{ width: "100%" }}
               value={ingredient.dosage}
-              onClick={(e) => e.target?.select()}
+              onClick={(e) =>  (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const num = sanitizedNumber(e);
                 calculatorStore.replaceFlour(index, {

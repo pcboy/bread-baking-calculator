@@ -45,10 +45,9 @@ export const Ingredients = observer(() => {
           <div className="column is-half">
             <Input
               type="number"
-              max="100"
               value={ingredient.dosage}
               style={{ width: "100%" }}
-              onClick={(e) => e.target?.select()}
+              onClick={(e) => (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const weight = sanitizedNumber(e);
                 calculatorStore.replaceIngredient(index, {
@@ -56,7 +55,6 @@ export const Ingredients = observer(() => {
                   dosage: weight,
                 });
               }}
-              label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="weight">

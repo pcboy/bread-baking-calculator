@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const SCalculator = styled.div`
   margin: 0 auto;
   margin-top: 6rem;
-  margin-bottom: 5rem;
   max-width: 35rem;
   padding: 3rem;
   border: 2px dashed #afafaf;
