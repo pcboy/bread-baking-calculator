@@ -32,7 +32,7 @@
     "mobx-state-tree": "^4.0.2",
     "msgpack-lite": "^0.1.26",
     "parcel": "^1.12.4",
-    "react": "^16.8.0",
+    "react": "*",
     "react-contenteditable": "^3.3.4",
     "react-dom": "^16.8.0",
     "react-github-corner": "^2.5.0",
