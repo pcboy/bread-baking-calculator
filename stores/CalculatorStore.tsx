@@ -37,7 +37,10 @@ const CalculatorStore = types
       );
     },
     recomputeFlours() {
-      const total = self.flours.map((x) => x.dosage).reduce((x, y) => x + y, 0);
+      const total =
+        self.flours.map((x) => x.dosage).reduce((x, y) => x + y, 0) +
+        self.ingredients.map((x) => x.dosage).reduce((x, y) => x + y, 0);
+
       if (total > 100) {
         self.flours[0].dosage -= total - 100;
       } else if (total < 100) {
