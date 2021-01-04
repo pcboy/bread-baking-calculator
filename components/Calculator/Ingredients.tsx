@@ -54,7 +54,6 @@ export const Ingredients = observer(() => {
                   name: ingredient.name,
                   dosage: weight,
                 });
-                calculatorStore.recomputeFlours()
               }}
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
