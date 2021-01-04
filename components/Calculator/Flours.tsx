@@ -57,7 +57,6 @@ export const Flours = observer(() => {
           <div className="column is-half">
             <Input
               type="number"
-              max="100"
               style={{ width: "100%" }}
               value={ingredient.dosage}
               onClick={(e) =>  (e.target as HTMLInputElement)?.select()}
@@ -68,7 +67,6 @@ export const Flours = observer(() => {
                   dosage: num,
                 });
               }}
-              label="Percentage"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
 

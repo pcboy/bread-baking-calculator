@@ -23,12 +23,12 @@ const CalculatorStore = types
       return self.flours[self.starterFlourIndex];
     },
     get starterWeight() {
-      return Math.round(self.totalWeight * (self.starterPerc / 100.0));
+      return Math.trunc(self.totalWeight * (self.starterPerc / 100.0));
     },
   }))
   .actions((self) => ({
     computeWeight(ingredientPerc: number) {
-      return Math.round(
+      return Math.trunc(
         ingredientPerc *
           (self.totalWeight /
             (self.ingredients.map((x) => x.dosage).reduce((x, y) => x + y) +

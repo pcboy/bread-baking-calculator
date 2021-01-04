@@ -14,8 +14,7 @@ import GithubCorner from "react-github-corner";
 import { Starter } from "./Starter";
 import { Tips } from "./Tips";
 
-
-const Calculator = observer(() => {
+export const Calculator = observer(() => {
   React.useEffect(() => calculatorStore.loadHash(), []);
 
   const waterWeight = () =>
