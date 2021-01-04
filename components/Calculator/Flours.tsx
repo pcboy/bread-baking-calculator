@@ -7,11 +7,7 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { observer } from "mobx-react";
 import ContentEditable from "react-contenteditable";
 import { calculatorStore } from "../../stores/CalculatorStore";
-import {
-  sanitizedNumber,
-  sanitizedString,
-  AddButton,
-} from "./Utils";
+import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 export const Flours = observer(() => {
   const flourWeight = (flourIndex: number, flourPerc: number) =>
@@ -59,7 +55,7 @@ export const Flours = observer(() => {
               type="number"
               style={{ width: "100%" }}
               value={ingredient.dosage}
-              onClick={(e) =>  (e.target as HTMLInputElement)?.select()}
+              onClick={(e) => (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const num = sanitizedNumber(e);
                 calculatorStore.replaceFlour(index, {
@@ -70,7 +66,7 @@ export const Flours = observer(() => {
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
 
-            <div className="weight">
+            <div className="weight" key={calculatorStore.ingredients[0]}>
               {flourWeight(index, ingredient.dosage)} grams
             </div>
           </div>
