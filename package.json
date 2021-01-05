@@ -27,7 +27,7 @@
     "bs58": "^4.0.1",
     "components": "^0.1.0",
     "material-ui": "^0.20.2",
-    "mobx": "^6.0.0",
+    "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "mobx-state-tree": "^4.0.2",
     "msgpack-lite": "^0.1.26",

@@ -25,8 +25,17 @@ const CalculatorStore = types
     get starterWeight() {
       return Math.round(self.totalWeight * (self.starterPerc / 100.0));
     },
-  }))
-  .actions((self) => ({
+    get waterWeight() {
+      return Math.round(
+        this.computeWeight(self.waterPerc) - this.starterWeight / 2
+      );
+    },
+    flourWeight(flourIndex: number, flourPerc: number) {
+      return Math.round(
+        this.computeWeight(flourPerc) -
+          (flourIndex == self.starterFlourIndex ? this.starterWeight / 2 : 0)
+      );
+    },
     computeWeight(ingredientPerc: number) {
       return Math.round(
         ingredientPerc *
@@ -36,6 +45,8 @@ const CalculatorStore = types
               self.waterPerc))
       );
     },
+  }))
+  .actions((self) => ({
     recomputeFlours() {
       const total = self.flours.map((x) => x.dosage).reduce((x, y) => x + y, 0);
       if (total > 100) {
