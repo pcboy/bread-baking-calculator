@@ -10,14 +10,6 @@ import { calculatorStore } from "../../stores/CalculatorStore";
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 export const Flours = observer(() => {
-  const flourWeight = (flourIndex: number, flourPerc: number) =>
-    Math.round(
-      calculatorStore.computeWeight(flourPerc) -
-        (flourIndex == calculatorStore.starterFlourIndex
-          ? calculatorStore.starterWeight / 2
-          : 0)
-    );
-
   return (
     <div className="columns is-multiline is-mobile">
       {calculatorStore.flours.map((ingredient, index) => (
@@ -66,8 +58,9 @@ export const Flours = observer(() => {
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
 
-            <div className="weight" key={calculatorStore.ingredients[0]}>
-              {flourWeight(index, ingredient.dosage)} grams
+            <div className="weight">
+              {calculatorStore.flourWeight(index, ingredient.dosage)}{" "}
+              grams
             </div>
           </div>
         </React.Fragment>

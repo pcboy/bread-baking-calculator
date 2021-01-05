@@ -17,12 +17,6 @@ import { Tips } from "./Tips";
 export const Calculator = observer(() => {
   React.useEffect(() => calculatorStore.loadHash(), []);
 
-  const waterWeight = () =>
-    Math.round(
-      calculatorStore.computeWeight(calculatorStore.waterPerc) -
-        calculatorStore.starterWeight / 2
-    );
-
   return (
     <>
       <GithubCorner
@@ -72,7 +66,7 @@ export const Calculator = observer(() => {
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
 
-              <div className="weight">{waterWeight()} grams</div>
+              <div className="weight">{calculatorStore.waterWeight} grams</div>
             </div>
           </div>
 
