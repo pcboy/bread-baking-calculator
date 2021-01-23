@@ -8,11 +8,12 @@ import { calculatorStore } from "../../stores/CalculatorStore";
 import { Ingredients } from "./Ingredients";
 import { Flours } from "./Flours";
 import { SCalculator } from "./SCalculator";
-import { handleChangeNumber } from "./Utils";
+import { handleChangeNumber, stripHTML } from "./Utils";
 import ContentEditable from "react-contenteditable";
 import GithubCorner from "react-github-corner";
 import { Starter } from "./Starter";
 import { Tips } from "./Tips";
+import Helmet from "react-helmet";
 
 export const Calculator = observer(() => {
   React.useEffect(() => calculatorStore.loadHash(), []);
@@ -26,6 +27,9 @@ export const Calculator = observer(() => {
         size={80}
         direction="right"
       />
+      <Helmet>
+        <title>{`${stripHTML(calculatorStore.recipeName)}`}</title>
+      </Helmet>
       <div className="container" style={{ padding: "1rem" }}>
         <SCalculator>
           <h1>
