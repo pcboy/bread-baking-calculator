@@ -1,3 +1,5 @@
+![Build and Deploy](https://github.com/pcboy/bread-baking-calculator/workflows/Build%20and%20Deploy/badge.svg)
+
 # bread-baking-calculator
 
 Access the baker's percentage calculator at: https://breadcalc.joynetiks.com/
