@@ -123,4 +123,29 @@ describe("Calculator", () => {
       "Whole wheat",
     ]);
   });
+
+  it("returns proper results", () => {
+    const store = CalculatorStore.create({
+      recipeName: "Bread Baking Calculator",
+      flours: [
+        { name: "Bread Flour", dosage: 96 },
+        { name: "Whole wheat", dosage: 4 },
+      ],
+      ingredients: [
+        { name: "Salt", dosage: 3 },
+        { name: "ingredient1", dosage: 1 },
+      ],
+      waterPerc: 75,
+      totalWeight: 800,
+      starterPerc: 20,
+      starterFlourIndex: 0,
+    });
+
+    expect(store.flourWeight(0, store.flours[0].dosage)).toEqual(349);
+    expect(store.flourWeight(1, store.flours[1].dosage)).toEqual(18);
+    expect(store.waterWeight).toEqual(255);
+    expect(store.computeWeight(store.ingredients[0].dosage)).toEqual(13);
+    expect(store.computeWeight(store.ingredients[1].dosage)).toEqual(4);
+    expect(store.starterWeight).toEqual(160);
+  });
 });
