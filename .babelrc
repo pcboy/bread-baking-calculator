@@ -4,6 +4,8 @@
     "mobx-deep-action",
     "emotion",
     "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-typescript",
+    "babel-plugin-styled-components",
     "lodash",
     [
       "babel-plugin-closure-elimination",

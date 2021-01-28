@@ -5,16 +5,22 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { observer } from "mobx-react";
 import ContentEditable from "react-contenteditable";
 
-import { calculatorStore } from "../../stores/CalculatorStore";
+import { CalcStoreContext } from "../../stores/CalculatorStore";
 
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 export const Ingredients = observer(() => {
+  const calcstore = React.useContext(CalcStoreContext);
+
   return (
     <div className="columns is-multiline is-mobile">
-      {calculatorStore.ingredients.map((ingredient, index) => (
+      {calcstore.ingredients.map((ingredient, index) => (
         <React.Fragment key={`ingredient_${index}`}>
-          <div className="column is-half" style={{ position: "relative" }}>
+          <div
+            data-testid="ingredient"
+            className="column is-half"
+            style={{ position: "relative" }}
+          >
             {index != 0 && (
               <IconButton
                 aria-label="delete"
@@ -24,7 +30,7 @@ export const Ingredients = observer(() => {
                   left: "-2rem",
                   marginTop: "0.4rem",
                 }}
-                onClick={() => calculatorStore.removeIngredient(index)}
+                onClick={() => calcstore.removeIngredient(index)}
               >
                 <RemoveCircleIcon fontSize="inherit" />
               </IconButton>
@@ -35,7 +41,7 @@ export const Ingredients = observer(() => {
               disabled={false}
               onChange={(e) => {
                 const ingr = sanitizedString(e);
-                calculatorStore.replaceIngredient(index, {
+                calcstore.replaceIngredient(index, {
                   name: ingr,
                   dosage: ingredient.dosage,
                 });
@@ -50,7 +56,7 @@ export const Ingredients = observer(() => {
               onClick={(e) => (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const weight = sanitizedNumber(e);
-                calculatorStore.replaceIngredient(index, {
+                calcstore.replaceIngredient(index, {
                   name: ingredient.name,
                   dosage: weight,
                 });
@@ -58,13 +64,16 @@ export const Ingredients = observer(() => {
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="weight">
-              {calculatorStore.computeWeight(ingredient.dosage)} grams
+              {calcstore.computeWeight(ingredient.dosage)} grams
             </div>
           </div>
         </React.Fragment>
       ))}
       <div className="column is-12 has-text-centered">
-        <AddButton onClick={() => calculatorStore.addIngredient()}>
+        <AddButton
+          data-testid="addIngredient"
+          onClick={() => calcstore.addIngredient()}
+        >
           <AddCircleIcon style={{ marginRight: ".5rem" }} />
           Add Other Ingredients
         </AddButton>

@@ -3,12 +3,14 @@ import { types, onSnapshot, getSnapshot } from "mobx-state-tree";
 import * as msgpack from "msgpack-lite";
 import * as bs58 from "bs58";
 
+import * as React from "react";
+
 const Ingredient = types.model("Ingredient", {
   name: types.string,
   dosage: types.number,
 });
 
-const CalculatorStore = types
+export const CalculatorStore = types
   .model("CalculatorStore", {
     recipeName: types.string,
     flours: types.array(Ingredient),
@@ -40,8 +42,9 @@ const CalculatorStore = types
       return Math.round(
         ingredientPerc *
           (self.totalWeight /
-            (self.ingredients.map((x) => x.dosage).reduce((x, y) => x + y) +
-              self.flours.map((x) => x.dosage).reduce((x, y) => x + y) +
+            ([...self.ingredients, ...self.flours]
+              .map((x) => x.dosage)
+              .reduce((x, y) => x + y) +
               self.waterPerc))
       );
     },
@@ -160,4 +163,5 @@ onSnapshot(calculatorStore, (newSnapshot) => {
   calculatorStore.recomputeHash();
 });
 
+export const CalcStoreContext = React.createContext(calculatorStore);
 export default calculatorStore;

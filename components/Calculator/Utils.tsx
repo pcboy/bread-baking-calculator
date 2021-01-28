@@ -1,15 +1,28 @@
 import * as React from "react";
 import { Button } from "@material-ui/core";
-import { calculatorStore } from "../../stores/CalculatorStore";
+import calculatorStore, {
+  CalcStoreContext,
+} from "../../stores/CalculatorStore";
 import { ContentEditableEvent } from "react-contenteditable";
 
-export type AddButtonProps = {
+export interface AddButtonProps {
   onClick: () => void;
   children: React.ReactNode;
-};
+  "data-testid"?: string;
+}
 
-export const AddButton = ({ onClick, children }: AddButtonProps) => (
-  <Button variant="outlined" color="primary" size="small" onClick={onClick}>
+export const AddButton = ({
+  onClick,
+  children,
+  "data-testid": dataTestId,
+}: AddButtonProps) => (
+  <Button
+    data-testid={dataTestId}
+    variant="outlined"
+    color="primary"
+    size="small"
+    onClick={onClick}
+  >
     {children}
   </Button>
 );
@@ -31,11 +44,9 @@ export const sanitizedNumber = (
 };
 
 export const handleChangeNumber = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  key: string
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 ): number => {
   const value = e.target.value != "" ? parseFloat(e.target.value) : 0;
-  calculatorStore.changeAttribute(key, value);
   return value;
 };
 
