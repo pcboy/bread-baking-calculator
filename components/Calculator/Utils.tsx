@@ -1,8 +1,5 @@
 import * as React from "react";
-import { Button } from "@material-ui/core";
-import calculatorStore, {
-  CalcStoreContext,
-} from "../../stores/CalculatorStore";
+import Button from "@material-ui/core/Button";
 import { ContentEditableEvent } from "react-contenteditable";
 
 export interface AddButtonProps {

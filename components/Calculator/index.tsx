@@ -1,12 +1,11 @@
 import * as React from "react";
 
-import { InputAdornment, Input } from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Input from "@material-ui/core/Input";
 
 import { observer } from "mobx-react";
 
-import calculatorStore, {
-  CalcStoreContext,
-} from "../../stores/CalculatorStore";
+import { CalcStoreContext } from "../../stores/CalculatorStore";
 import { Ingredients } from "./Ingredients";
 import { Flours } from "./Flours";
 import { SCalculator } from "./SCalculator";
@@ -16,7 +15,6 @@ import GithubCorner from "react-github-corner";
 import { Starter } from "./Starter";
 import { Tips } from "./Tips";
 import Helmet from "react-helmet";
-import { getSnapshot } from "mobx-state-tree";
 
 export const Calculator = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);

@@ -1,5 +1,7 @@
 import * as React from "react";
-import { InputAdornment, Input, IconButton, Select } from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Input from "@material-ui/core/Input";
+import IconButton from "@material-ui/core/IconButton";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
@@ -56,7 +58,7 @@ export const Flours = observer(() => {
               onClick={(e) => (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const num = sanitizedNumber(e);
-              
+
                 calcstore.replaceFlour(index, {
                   name: ingredient.name,
                   dosage: num,
@@ -72,7 +74,10 @@ export const Flours = observer(() => {
         </React.Fragment>
       ))}
       <div className="column is-12 has-text-centered">
-        <AddButton data-testid="addAnotherFlour" onClick={() => calcstore.addFlour()}>
+        <AddButton
+          data-testid="addAnotherFlour"
+          onClick={() => calcstore.addFlour()}
+        >
           <AddCircleIcon style={{ marginRight: ".5rem" }} />
           Add Another Flour
         </AddButton>

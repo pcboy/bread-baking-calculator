@@ -1,5 +1,8 @@
 import * as React from "react";
-import { InputAdornment, Input, IconButton } from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Input from "@material-ui/core/Input";
+import IconButton from "@material-ui/core/IconButton";
+
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { observer } from "mobx-react";

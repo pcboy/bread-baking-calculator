@@ -1,11 +1,10 @@
 import * as React from "react";
-import {
-  InputAdornment,
-  Input,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+
 import { observer } from "mobx-react";
 import { CalcStoreContext } from "../../stores/CalculatorStore";
 import { handleChangeNumber, stripHTML } from "./Utils";
