@@ -4,7 +4,9 @@ import { InputAdornment, Input } from "@material-ui/core";
 
 import { observer } from "mobx-react";
 
-import { calculatorStore } from "../../stores/CalculatorStore";
+import calculatorStore, {
+  CalcStoreContext,
+} from "../../stores/CalculatorStore";
 import { Ingredients } from "./Ingredients";
 import { Flours } from "./Flours";
 import { SCalculator } from "./SCalculator";
@@ -14,9 +16,12 @@ import GithubCorner from "react-github-corner";
 import { Starter } from "./Starter";
 import { Tips } from "./Tips";
 import Helmet from "react-helmet";
+import { getSnapshot } from "mobx-state-tree";
 
 export const Calculator = observer(() => {
-  React.useEffect(() => calculatorStore.loadHash(), []);
+  const calcstore = React.useContext(CalcStoreContext);
+
+  React.useEffect(() => calcstore.loadHash(), []);
 
   return (
     <>
@@ -28,17 +33,17 @@ export const Calculator = observer(() => {
         direction="right"
       />
       <Helmet>
-        <title>{`${stripHTML(calculatorStore.recipeName)}`}</title>
+        <title>{`${stripHTML(calcstore.recipeName)}`}</title>
       </Helmet>
       <div className="container" style={{ padding: "1rem" }}>
         <SCalculator>
-          <h1>
+          <h1 data-testid="recipeName">
             <ContentEditable
-              html={calculatorStore.recipeName}
+              html={calcstore.recipeName}
               className="editable"
               disabled={false}
               onChange={(e) => {
-                calculatorStore.changeAttribute("recipeName", e.target.value);
+                calcstore.changeAttribute("recipeName", e.target.value);
               }}
             />
           </h1>
@@ -48,9 +53,14 @@ export const Calculator = observer(() => {
               <Input
                 type="number"
                 style={{ width: "100%" }}
-                value={calculatorStore.totalWeight}
+                value={calcstore.totalWeight}
                 onClick={(e) => (e.target as HTMLInputElement)?.select()}
-                onChange={(e) => handleChangeNumber(e, "totalWeight")}
+                onChange={(e) =>
+                  calcstore.changeAttribute(
+                    "totalWeight",
+                    handleChangeNumber(e)
+                  )
+                }
                 endAdornment={<InputAdornment position="end">g</InputAdornment>}
               />
             </div>
@@ -64,13 +74,15 @@ export const Calculator = observer(() => {
               <Input
                 type="number"
                 style={{ width: "100%" }}
-                value={calculatorStore.waterPerc}
+                value={calcstore.waterPerc}
                 onClick={(e) => (e.target as HTMLInputElement)?.select()}
-                onChange={(e) => handleChangeNumber(e, "waterPerc")}
+                onChange={(e) =>
+                  calcstore.changeAttribute("waterPerc", handleChangeNumber(e))
+                }
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
 
-              <div className="weight">{calculatorStore.waterWeight} grams</div>
+              <div className="weight">{calcstore.waterWeight} grams</div>
             </div>
           </div>
 

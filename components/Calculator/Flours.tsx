@@ -6,15 +6,21 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 import { observer } from "mobx-react";
 import ContentEditable from "react-contenteditable";
-import { calculatorStore } from "../../stores/CalculatorStore";
+import { CalcStoreContext } from "../../stores/CalculatorStore";
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
 export const Flours = observer(() => {
+  const calcstore = React.useContext(CalcStoreContext);
+
   return (
     <div className="columns is-multiline is-mobile">
-      {calculatorStore.flours.map((ingredient, index) => (
+      {calcstore.flours.map((ingredient, index) => (
         <React.Fragment key={`flour_${index}`}>
-          <div className="column is-half" style={{ position: "relative" }}>
+          <div
+            className="column is-half"
+            style={{ position: "relative" }}
+            data-testid="flour"
+          >
             {index != 0 && (
               <IconButton
                 aria-label="delete"
@@ -24,7 +30,7 @@ export const Flours = observer(() => {
                   left: "-2rem",
                   marginTop: "0.4rem",
                 }}
-                onClick={() => calculatorStore.removeFlour(index)}
+                onClick={() => calcstore.removeFlour(index)}
               >
                 <RemoveCircleIcon fontSize="inherit" />
               </IconButton>
@@ -35,14 +41,14 @@ export const Flours = observer(() => {
               disabled={false}
               onChange={(e) => {
                 const ingr = sanitizedString(e);
-                calculatorStore.replaceFlour(index, {
+                calcstore.replaceFlour(index, {
                   name: ingr,
                   dosage: ingredient.dosage,
                 });
               }}
             />
           </div>
-          <div className="column is-half">
+          <div className="column is-half" data-testid="flourValue">
             <Input
               type="number"
               style={{ width: "100%" }}
@@ -50,7 +56,8 @@ export const Flours = observer(() => {
               onClick={(e) => (e.target as HTMLInputElement)?.select()}
               onChange={(e) => {
                 const num = sanitizedNumber(e);
-                calculatorStore.replaceFlour(index, {
+              
+                calcstore.replaceFlour(index, {
                   name: ingredient.name,
                   dosage: num,
                 });
@@ -59,14 +66,13 @@ export const Flours = observer(() => {
             />
 
             <div className="weight">
-              {calculatorStore.flourWeight(index, ingredient.dosage)}{" "}
-              grams
+              {calcstore.flourWeight(index, ingredient.dosage)} grams
             </div>
           </div>
         </React.Fragment>
       ))}
       <div className="column is-12 has-text-centered">
-        <AddButton onClick={() => calculatorStore.addFlour()}>
+        <AddButton data-testid="addAnotherFlour" onClick={() => calcstore.addFlour()}>
           <AddCircleIcon style={{ marginRight: ".5rem" }} />
           Add Another Flour
         </AddButton>
