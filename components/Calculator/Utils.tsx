@@ -8,7 +8,7 @@ export interface AddButtonProps {
   "data-testid"?: string;
 }
 
-export const AddButton = ({
+export const AddButton: React.FC<AddButtonProps> = ({
   onClick,
   children,
   "data-testid": dataTestId,

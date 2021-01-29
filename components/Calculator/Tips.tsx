@@ -19,7 +19,7 @@ export const STips = styled.div`
   }
 `;
 
-export const Tips = () => (
+export const Tips: React.FC = () => (
   <STips>
     <b>Pro Tips: </b>
     <ul>

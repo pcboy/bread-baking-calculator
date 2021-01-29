@@ -12,7 +12,7 @@ import { CalcStoreContext } from "../../stores/CalculatorStore";
 
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
-export const Ingredients = observer(() => {
+export const Ingredients: React.FC = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);
 
   return (

@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 import { CalcStoreContext } from "../../stores/CalculatorStore";
 import { handleChangeNumber, stripHTML } from "./Utils";
 
-export const Starter = observer(() => {
+export const Starter: React.FC = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);
 
   return (

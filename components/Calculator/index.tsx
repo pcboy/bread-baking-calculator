@@ -16,7 +16,7 @@ import { Starter } from "./Starter";
 import { Tips } from "./Tips";
 import Helmet from "react-helmet";
 
-export const Calculator = observer(() => {
+export const Calculator: React.FC = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);
 
   React.useEffect(() => calcstore.loadHash(), []);

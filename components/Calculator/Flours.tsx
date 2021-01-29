@@ -11,7 +11,7 @@ import ContentEditable from "react-contenteditable";
 import { CalcStoreContext } from "../../stores/CalculatorStore";
 import { sanitizedNumber, sanitizedString, AddButton } from "./Utils";
 
-export const Flours = observer(() => {
+export const Flours: React.FC = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);
 
   return (
