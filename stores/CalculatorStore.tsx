@@ -86,13 +86,13 @@ export const CalculatorStore = types
           );
           // New version. Old one is deprecated
           if (decoded.ver) {
-            decoded.f && self.flours.replace(decoded.f);
-            decoded.i && self.ingredients.replace(decoded.i);
-            decoded.w && (self.waterPerc = decoded.w);
-            decoded.tw && (self.totalWeight = decoded.tw);
-            decoded.sp && (self.starterPerc = decoded.sp);
-            decoded.sfi && (self.starterFlourIndex = decoded.sfi);
-            decoded.rn && (self.recipeName = decoded.rn);
+            decoded.f != undefined && self.flours.replace(decoded.f);
+            decoded.i != undefined && self.ingredients.replace(decoded.i);
+            decoded.w != undefined && (self.waterPerc = decoded.w);
+            decoded.tw != undefined && (self.totalWeight = decoded.tw);
+            decoded.sp != undefined && (self.starterPerc = decoded.sp);
+            decoded.sfi != undefined && (self.starterFlourIndex = decoded.sfi);
+            decoded.rn != undefined && (self.recipeName = decoded.rn);
           } else {
             this.loadHashDeprecated(decoded);
           }
