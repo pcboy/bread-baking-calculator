@@ -14,8 +14,7 @@ import ContentEditable from "react-contenteditable";
 import GithubCorner from "react-github-corner";
 import { Starter } from "./Starter";
 import { Tips } from "./Tips";
-import Helmet from "react-helmet";
-
+import { Helmet } from "react-helmet";
 export const Calculator: React.FC = observer(() => {
   const calcstore = React.useContext(CalcStoreContext);
 
@@ -31,6 +30,7 @@ export const Calculator: React.FC = observer(() => {
         direction="right"
       />
       <Helmet>
+        <meta charSet="utf-8" />
         <title>{`${stripHTML(calcstore.recipeName)}`}</title>
       </Helmet>
       <div className="container" style={{ padding: "1rem" }}>

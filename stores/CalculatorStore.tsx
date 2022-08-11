@@ -120,14 +120,17 @@ export const CalculatorStore = types
     addFlour() {
       self.flours.push({ name: "Whole Wheat Flour", dosage: 0 });
     },
+    setStarterFlour(index: number) {
+      self.starterFlourIndex = index;
+    },
     removeFlour(index: number) {
+      if (index == self.starterFlourIndex) {
+        self.setStarterFlour(0);
+      }
       self.flours.replace(self.flours.filter((value, i) => i != index));
     },
     replaceFlour(index: number, flour: { name: string; dosage: number }) {
       self.flours[index] = flour;
-    },
-    starterFlour(index: number) {
-      self.starterFlourIndex = index;
     },
     replaceIngredient(
       index: number,
