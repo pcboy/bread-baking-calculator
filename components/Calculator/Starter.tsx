@@ -38,7 +38,7 @@ export const Starter: React.FC = observer(() => {
             native
             value={calcstore.starterFlourIndex}
             onChange={(e: React.ChangeEvent<any>) => {
-              calcstore.starterFlour(parseInt(e.target.value));
+              calcstore.setStarterFlour(parseInt(e.target.value));
             }}
           >
             {calcstore.flours.map((flour, index: number) => (
