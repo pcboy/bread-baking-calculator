@@ -1,35 +1,55 @@
-import * as React from "react";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import * as React from 'react'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Input from '@material-ui/core/Input'
+import Select from '@material-ui/core/Select'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
 
-import { observer } from "mobx-react";
-import { CalcStoreContext } from "../../stores/CalculatorStore";
-import { handleChangeNumber, stripHTML } from "./Utils";
+import { observer } from 'mobx-react'
+import { CalcStoreContext } from '../../stores/CalculatorStore'
+import { handleChangeNumber, stripHTML } from './Utils'
+import ContentEditable from 'react-contenteditable'
+import { NumericFormat } from 'react-number-format'
 
 export const Starter: React.FC = observer(() => {
-  const calcstore = React.useContext(CalcStoreContext);
+  const calcstore = React.useContext(CalcStoreContext)
 
   return (
-    <div className="columns is-multiline is-mobile">
-      <div className="column is-half">
-        Starter in percentage of total weight (100% hydration starter)
+    <div className="grid grid-cols-1 grid-flow-col md:grid-cols-2">
+      <div>
+        Starter in percentage of total weight (
+        <NumericFormat
+          displayType="input"
+          valueIsNumericString
+          className="underline decoration-dotted mr-1"
+          onValueChange={(values) =>
+            calcstore.setStarterRatio(parseInt(values.value))
+          }
+          onClick={(e) => (e.target as HTMLInputElement)?.select()}
+          allowNegative={false}
+          thousandSeparator=" "
+          size={4}
+          allowedDecimalSeparators={[',', '.']}
+          defaultValue={calcstore.starterRatio}
+          value={calcstore.starterRatio}
+          type="text"
+          suffix={' %'}
+        />
+        hydration starter)
       </div>
-      <div className="column is-half">
+      <div>
         <Input
           type="number"
-          style={{ width: "100%" }}
+          className="w-full"
           value={calcstore.starterPerc}
           onClick={(e) => (e.target as HTMLInputElement)?.select()}
           onChange={(e) =>
-            calcstore.changeAttribute("starterPerc", handleChangeNumber(e))
+            calcstore.changeAttribute('starterPerc', handleChangeNumber(e))
           }
           endAdornment={<InputAdornment position="end">%</InputAdornment>}
         />
         <div className="weight">{calcstore.starterWeight} grams</div>
-        <FormControl style={{ width: "100%" }}>
+        <FormControl className="w-full">
           <InputLabel htmlFor="age-native-simple">
             Which Flour did you use?
           </InputLabel>
@@ -38,7 +58,7 @@ export const Starter: React.FC = observer(() => {
             native
             value={calcstore.starterFlourIndex}
             onChange={(e: React.ChangeEvent<any>) => {
-              calcstore.setStarterFlour(parseInt(e.target.value));
+              calcstore.setStarterFlour(parseInt(e.target.value))
             }}
           >
             {calcstore.flours.map((flour, index: number) => (
@@ -50,5 +70,5 @@ export const Starter: React.FC = observer(() => {
         </FormControl>
       </div>
     </div>
-  );
-});
+  )
+})

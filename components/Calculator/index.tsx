@@ -1,29 +1,30 @@
-import * as React from "react";
+import * as React from 'react'
 
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from "@material-ui/core/Input";
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Input from '@material-ui/core/Input'
 
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react'
 
-import { CalcStoreContext } from "../../stores/CalculatorStore";
-import { Ingredients } from "./Ingredients";
-import { Flours } from "./Flours";
-import { SCalculator } from "./SCalculator";
-import { handleChangeNumber, stripHTML } from "./Utils";
-import ContentEditable from "react-contenteditable";
-import GithubCorner from "react-github-corner";
-import { Starter } from "./Starter";
-import { Tips } from "./Tips";
-import { Helmet } from "react-helmet";
+import { CalcStoreContext } from '../../stores/CalculatorStore'
+import { Ingredients } from './Ingredients'
+import { Flours } from './Flours'
+import { SCalculator } from './SCalculator'
+import { handleChangeNumber, stripHTML } from './Utils'
+import ContentEditable from 'react-contenteditable'
+import GithubCorner from 'react-github-corner'
+import { Starter } from './Starter'
+import { Tips } from './Tips'
+import { Helmet } from 'react-helmet'
+
 export const Calculator: React.FC = observer(() => {
-  const calcstore = React.useContext(CalcStoreContext);
+  const calcstore = React.useContext(CalcStoreContext)
 
-  React.useEffect(() => calcstore.loadHash(), []);
+  React.useEffect(() => calcstore.loadHash(), [])
 
   return (
     <>
       <GithubCorner
-        href={"https://github.com/pcboy/bread-baking-calculator"}
+        href={'https://github.com/pcboy/bread-baking-calculator'}
         bannerColor="#151513"
         octoColor="#fff"
         size={80}
@@ -33,7 +34,7 @@ export const Calculator: React.FC = observer(() => {
         <meta charSet="utf-8" />
         <title>{`${stripHTML(calcstore.recipeName)}`}</title>
       </Helmet>
-      <div className="container" style={{ padding: "1rem" }}>
+      <div className="container p-4">
         <SCalculator>
           <h1 data-testid="recipeName">
             <ContentEditable
@@ -41,7 +42,7 @@ export const Calculator: React.FC = observer(() => {
               className="editable"
               disabled={false}
               onChange={(e) => {
-                calcstore.changeAttribute("recipeName", e.target.value);
+                calcstore.changeAttribute('recipeName', e.target.value)
               }}
             />
           </h1>
@@ -50,12 +51,12 @@ export const Calculator: React.FC = observer(() => {
             <div className="column is-half">
               <Input
                 type="number"
-                style={{ width: "100%" }}
+                className="w-full"
                 value={calcstore.totalWeight}
                 onClick={(e) => (e.target as HTMLInputElement)?.select()}
                 onChange={(e) =>
                   calcstore.changeAttribute(
-                    "totalWeight",
+                    'totalWeight',
                     handleChangeNumber(e)
                   )
                 }
@@ -71,11 +72,11 @@ export const Calculator: React.FC = observer(() => {
             <div className="column is-half">
               <Input
                 type="number"
-                style={{ width: "100%" }}
+                className="w-full"
                 value={calcstore.waterPerc}
                 onClick={(e) => (e.target as HTMLInputElement)?.select()}
                 onChange={(e) =>
-                  calcstore.changeAttribute("waterPerc", handleChangeNumber(e))
+                  calcstore.changeAttribute('waterPerc', handleChangeNumber(e))
                 }
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
@@ -90,7 +91,7 @@ export const Calculator: React.FC = observer(() => {
         <Tips />
       </div>
     </>
-  );
-});
+  )
+})
 
-export default Calculator;
+export default Calculator

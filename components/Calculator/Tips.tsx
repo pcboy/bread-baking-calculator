@@ -1,5 +1,5 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from 'react'
+import styled from 'styled-components'
 
 export const STips = styled.div`
   margin: 0 auto;
@@ -17,7 +17,7 @@ export const STips = styled.div`
     padding-left: 0.1rem;
     padding-right: 0.2rem;
   }
-`;
+`
 
 export const Tips: React.FC = () => (
   <STips>
@@ -33,4 +33,4 @@ export const Tips: React.FC = () => (
       </li>
     </ul>
   </STips>
-);
+)

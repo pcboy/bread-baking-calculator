@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const SCalculator = styled.div`
   margin: 0 auto;
@@ -13,9 +13,6 @@ export const SCalculator = styled.div`
     font-size: 2rem;
     margin-bottom: 2rem;
   }
-  .text-right {
-    text-align: right;
-  }
 
   .editable {
     border-bottom: 1px dashed #aaa;
@@ -26,4 +23,4 @@ export const SCalculator = styled.div`
     font-weight: bold;
     text-align: right;
   }
-`;
+`

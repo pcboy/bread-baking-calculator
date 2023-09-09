@@ -1,44 +1,48 @@
-import { types, onSnapshot, getSnapshot } from "mobx-state-tree";
+import { types, onSnapshot, getSnapshot } from 'mobx-state-tree'
 
-import * as msgpack from "msgpack-lite";
-import * as bs58 from "bs58";
+import * as msgpack from 'msgpack-lite'
+import * as bs58 from 'bs58'
 
-import * as React from "react";
+import * as React from 'react'
 
-const Ingredient = types.model("Ingredient", {
+const Ingredient = types.model('Ingredient', {
   name: types.string,
   dosage: types.number,
-});
+})
 
 export const CalculatorStore = types
-  .model("CalculatorStore", {
+  .model('CalculatorStore', {
     recipeName: types.string,
     flours: types.array(Ingredient),
     ingredients: types.array(Ingredient),
     waterPerc: types.number,
     totalWeight: types.number,
     starterPerc: types.number,
+    starterRatio: types.number,
     starterFlourIndex: types.number,
   })
   .views((self) => ({
     get starterFlour() {
-      return self.flours[self.starterFlourIndex];
+      return self.flours[self.starterFlourIndex]
     },
     get starterWeight() {
-      return Math.round(self.totalWeight * (self.starterPerc / 100.0));
+      return Math.round(self.totalWeight * (self.starterPerc / 100.0))
     },
     get waterWeight() {
       return Math.round(
-        this.computeWeight(self.waterPerc) - this.starterWeight / 2
-      );
+        this.computeWeight(self.waterPerc) -
+          self.starterWeight * (self.starterRatio / (self.starterRatio + 100))
+      )
     },
-    flourWeight(flourIndex: number, flourPerc: number) {
+    flourWeight(flourIndex: number, flourPerc: number): number {
       return Math.round(
         this.computeWeight(flourPerc) -
-          (flourIndex == self.starterFlourIndex ? this.starterWeight / 2 : 0)
-      );
+          (flourIndex == self.starterFlourIndex
+            ? self.starterWeight * (100 / (this.starterRatio + 100))
+            : 0)
+      )
     },
-    computeWeight(ingredientPerc: number) {
+    computeWeight(ingredientPerc: number): number {
       return Math.round(
         ingredientPerc *
           (self.totalWeight /
@@ -46,16 +50,16 @@ export const CalculatorStore = types
               .map((x) => x.dosage)
               .reduce((x, y) => x + y) +
               self.waterPerc))
-      );
+      )
     },
   }))
   .actions((self) => ({
     recomputeFlours() {
-      const total = self.flours.map((x) => x.dosage).reduce((x, y) => x + y, 0);
+      const total = self.flours.map((x) => x.dosage).reduce((x, y) => x + y, 0)
       if (total > 100) {
-        self.flours[0].dosage -= total - 100;
+        self.flours[0].dosage -= total - 100
       } else if (total < 100) {
-        self.flours[0].dosage += 100 - total;
+        self.flours[0].dosage += 100 - total
       }
     },
     loadHashDeprecated(decoded: any) {
@@ -65,42 +69,43 @@ export const CalculatorStore = types
             name: x[0],
             dosage: x[1],
           }))
-        );
+        )
       decoded.i &&
         self.ingredients.replace(
           decoded.i.map((x: [string, number]) => ({
             name: x[0],
             dosage: x[1],
           }))
-        );
-      decoded.w && (self.waterPerc = decoded.w);
-      decoded.tw && (self.totalWeight = decoded.tw);
-      decoded.sp && (self.starterPerc = decoded.sp);
-      decoded.sfi && (self.starterFlourIndex = decoded.sfi);
+        )
+      decoded.w && (self.waterPerc = decoded.w)
+      decoded.tw && (self.totalWeight = decoded.tw)
+      decoded.sp && (self.starterPerc = decoded.sp)
+      decoded.sfi && (self.starterFlourIndex = decoded.sfi)
     },
     loadHash() {
       if (window.location.hash.length > 0) {
         try {
           const decoded = msgpack.decode(
             bs58.decode(window.location.hash.substring(1))
-          );
+          )
           // New version. Old one is deprecated
           if (decoded.ver) {
-            decoded.f != undefined && self.flours.replace(decoded.f);
-            decoded.i != undefined && self.ingredients.replace(decoded.i);
-            decoded.w != undefined && (self.waterPerc = decoded.w);
-            decoded.tw != undefined && (self.totalWeight = decoded.tw);
-            decoded.sp != undefined && (self.starterPerc = decoded.sp);
-            decoded.sfi != undefined && (self.starterFlourIndex = decoded.sfi);
-            decoded.rn != undefined && (self.recipeName = decoded.rn);
+            decoded.f != undefined && self.flours.replace(decoded.f)
+            decoded.i != undefined && self.ingredients.replace(decoded.i)
+            decoded.w != undefined && (self.waterPerc = decoded.w)
+            decoded.tw != undefined && (self.totalWeight = decoded.tw)
+            decoded.sp != undefined && (self.starterPerc = decoded.sp)
+            decoded.sfi != undefined && (self.starterFlourIndex = decoded.sfi)
+            decoded.rn != undefined && (self.recipeName = decoded.rn)
+            decoded.sr != undefined && (self.starterRatio = decoded.sr)
           } else {
-            this.loadHashDeprecated(decoded);
+            this.loadHashDeprecated(decoded)
           }
         } catch (err) {}
       }
     },
     recomputeHash() {
-      const snap = getSnapshot(self);
+      const snap = getSnapshot(self)
       window.location.hash = bs58.encode(
         msgpack.encode({
           ver: 1,
@@ -111,60 +116,65 @@ export const CalculatorStore = types
           tw: snap.totalWeight,
           sp: snap.starterPerc,
           sfi: snap.starterFlourIndex,
+          sr: snap.starterRatio,
         })
-      );
+      )
     },
     changeAttribute(attribute: string, value: number | string) {
-      (self as any)[attribute] = value;
+      ;(self as any)[attribute] = value
+    },
+    setStarterRatio(ratio: number) {
+      self.starterRatio = Math.min(Math.max(0, ratio), 100)
     },
     addFlour() {
-      self.flours.push({ name: "Whole Wheat Flour", dosage: 0 });
+      self.flours.push({ name: 'Whole Wheat Flour', dosage: 0 })
     },
     setStarterFlour(index: number) {
-      self.starterFlourIndex = index;
+      self.starterFlourIndex = index
     },
     removeFlour(index: number) {
       if (index == self.starterFlourIndex) {
-        self.setStarterFlour(0);
+        self.setStarterFlour(0)
       }
-      self.flours.replace(self.flours.filter((value, i) => i != index));
+      self.flours.replace(self.flours.filter((value, i) => i != index))
     },
     replaceFlour(index: number, flour: { name: string; dosage: number }) {
-      self.flours[index] = flour;
+      self.flours[index] = flour
     },
     replaceIngredient(
       index: number,
       ingredient: { name: string; dosage: number }
     ) {
-      self.ingredients[index] = ingredient;
+      self.ingredients[index] = ingredient
     },
     addIngredient() {
       self.ingredients.push({
-        name: "Ingredient " + self.ingredients.length,
+        name: 'Ingredient ' + self.ingredients.length,
         dosage: 0,
-      });
+      })
     },
     removeIngredient(index: number) {
       self.ingredients.replace(
         self.ingredients.filter((value, i) => i != index)
-      );
+      )
     },
-  }));
+  }))
 
 export const calculatorStore = CalculatorStore.create({
-  recipeName: "Bread Baking Calculator",
-  flours: [{ name: "Bread Flour", dosage: 100 }],
-  ingredients: [{ name: "Salt", dosage: 3 }],
+  recipeName: 'Bread Baking Calculator',
+  flours: [{ name: 'Bread Flour', dosage: 100 }],
+  ingredients: [{ name: 'Salt', dosage: 3 }],
   waterPerc: 75,
   totalWeight: 800,
   starterPerc: 20,
+  starterRatio: 100,
   starterFlourIndex: 0,
-});
+})
 
 onSnapshot(calculatorStore, (newSnapshot) => {
-  calculatorStore.recomputeFlours();
-  calculatorStore.recomputeHash();
-});
+  calculatorStore.recomputeFlours()
+  calculatorStore.recomputeHash()
+})
 
-export const CalcStoreContext = React.createContext(calculatorStore);
-export default calculatorStore;
+export const CalcStoreContext = React.createContext(calculatorStore)
+export default calculatorStore
