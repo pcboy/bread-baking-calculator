@@ -31,14 +31,14 @@ export const CalculatorStore = types
     get waterWeight() {
       return Math.round(
         this.computeWeight(self.waterPerc) -
-          self.starterWeight * (self.starterRatio / (self.starterRatio + 100))
+          this.starterWeight * (self.starterRatio / (self.starterRatio + 100))
       )
     },
     flourWeight(flourIndex: number, flourPerc: number): number {
       return Math.round(
         this.computeWeight(flourPerc) -
           (flourIndex == self.starterFlourIndex
-            ? self.starterWeight * (100 / (this.starterRatio + 100))
+            ? this.starterWeight * (100 / (self.starterRatio + 100))
             : 0)
       )
     },
@@ -134,7 +134,7 @@ export const CalculatorStore = types
     },
     removeFlour(index: number) {
       if (index == self.starterFlourIndex) {
-        self.setStarterFlour(0)
+        this.setStarterFlour(0)
       }
       self.flours.replace(self.flours.filter((value, i) => i != index))
     },

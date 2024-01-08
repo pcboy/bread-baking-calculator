@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Component } from 'react'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Input from '@material-ui/core/Input'
@@ -21,8 +22,10 @@ export const Calculator: React.FC = observer(() => {
 
   React.useEffect(() => calcstore.loadHash(), [])
 
+  // @ts-ignore
   return (
     <>
+      {/* @ts-ignore */}
       <GithubCorner
         href={'https://github.com/pcboy/bread-baking-calculator'}
         bannerColor="#151513"
@@ -37,6 +40,7 @@ export const Calculator: React.FC = observer(() => {
       <div className="container p-4">
         <SCalculator>
           <h1 data-testid="recipeName">
+            {/* @ts-ignore */}
             <ContentEditable
               html={calcstore.recipeName}
               className="editable"
@@ -53,7 +57,7 @@ export const Calculator: React.FC = observer(() => {
                 type="number"
                 className="w-full"
                 value={calcstore.totalWeight}
-                onClick={(e) => (e.target as HTMLInputElement)?.select()}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) =>
                   calcstore.changeAttribute(
                     'totalWeight',
@@ -74,7 +78,7 @@ export const Calculator: React.FC = observer(() => {
                 type="number"
                 className="w-full"
                 value={calcstore.waterPerc}
-                onClick={(e) => (e.target as HTMLInputElement)?.select()}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) =>
                   calcstore.changeAttribute('waterPerc', handleChangeNumber(e))
                 }

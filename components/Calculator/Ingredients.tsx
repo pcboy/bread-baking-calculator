@@ -38,6 +38,7 @@ export const Ingredients: React.FC = observer(() => {
                 <RemoveCircleIcon fontSize="inherit" />
               </IconButton>
             )}
+            {/* @ts-ignore */}
             <ContentEditable
               html={ingredient.name}
               className="editable"
@@ -56,7 +57,7 @@ export const Ingredients: React.FC = observer(() => {
               type="number"
               value={ingredient.dosage}
               className="w-full"
-              onClick={(e) => (e.target as HTMLInputElement)?.select()}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 const weight = sanitizedNumber(e)
                 calcstore.replaceIngredient(index, {

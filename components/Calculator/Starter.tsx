@@ -25,7 +25,7 @@ export const Starter: React.FC = observer(() => {
           onValueChange={(values) =>
             calcstore.setStarterRatio(parseInt(values.value))
           }
-          onClick={(e) => (e.target as HTMLInputElement)?.select()}
+          onFocus={(e) => e.target.select()}
           allowNegative={false}
           thousandSeparator=" "
           size={4}
@@ -42,7 +42,7 @@ export const Starter: React.FC = observer(() => {
           type="number"
           className="w-full"
           value={calcstore.starterPerc}
-          onClick={(e) => (e.target as HTMLInputElement)?.select()}
+          onFocus={(e) => e.target.select()}
           onChange={(e) =>
             calcstore.changeAttribute('starterPerc', handleChangeNumber(e))
           }

@@ -33,6 +33,7 @@ export const Flours: React.FC = observer(() => {
                 <RemoveCircleIcon fontSize="inherit" />
               </IconButton>
             )}
+            {/* @ts-ignore */}
             <ContentEditable
               html={ingredient.name}
               className="editable"
@@ -51,7 +52,7 @@ export const Flours: React.FC = observer(() => {
               type="number"
               style={{ width: '100%' }}
               value={ingredient.dosage}
-              onClick={(e) => (e.target as HTMLInputElement)?.select()}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 const num = sanitizedNumber(e)
 
